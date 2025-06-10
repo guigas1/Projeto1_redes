@@ -1,0 +1,77 @@
+{% extends 'index.html' %} {% block content %}
+<a href="/" style="margin-top: 30px" class="arrow-back">&#10229;</a>
+<header>
+  <div class="caixa">
+    <h1>Bem-Vindo</h1>
+  </div>
+</header>
+<main>
+  <h2 class="titulo-principal">Criar um novo grupo:</h2>
+  <div>
+    <form method="post" class="create-room-form">
+      <label>Nome único do grupo:</label>
+      <input
+        type="text"
+        placeholder="Escolha um nome de grupo"
+        name="groupName"
+        value="{{groupName}}"
+        required
+      />
+      <button type="submit" name="create-group">Criar</button>
+    </form>
+    {% if error %}
+    <ul>
+      <li>{{error}}</li>
+    </ul>
+    {% endif %}
+  </div>
+  <h2 class="titulo-grupo">As salas disponíveis estão abaixo:</h2>
+  <div class="groups" id="groups">
+    <form method="post">
+      <div id="groups-display"></div>
+    </form>
+  </div>
+  <script type="text/javascript">
+    var socketio = io();
+
+    console.log();
+
+    const groups = document.getElementById("groups-display");
+
+    console.log(groups);
+
+    const displayGroups = (chat, creating) => {
+      date = new Date();
+
+      console.log(chat);
+
+      const groupContent = `
+        <p id=${chat}>
+          ${chat}
+          <button type="submit" name="join-group" value="${chat}">Entrar</button>
+        </p>
+      `;
+
+      console.log(groupContent);
+      creating == true
+        ? (groups.innerHTML += groupContent)
+        : (document.getElementById(chat).innerHTML = "");
+    };
+
+    socketio.on("group-created", (data) => {
+      console.log(data);
+      displayGroups(data, true);
+    });
+
+    socketio.on("group-deleted", (data) => {
+      console.log(data);
+      displayGroups(data, false);
+    });
+  </script>
+</main>
+{% for chat in chats %}
+<script type="text/javascript">
+  console.log("{{chat}}");
+  displayGroups("{{chat}}", true);
+</script>
+{% endfor %} {% endblock %}

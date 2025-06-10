@@ -1,0 +1,117 @@
+{% extends 'index.html' %}
+{% block content %}
+<a href="/lobby" class="arrow-back">&#10229;</a>
+<div class="email-box">
+  <div class="group-name">
+    <h1>{{ groupName }}</h1>
+  </div>
+  <div class="messages" id="messages"></div>
+  <div class="chat-control">
+    <div class="control">
+      <input
+        type="text"
+        rows="3"
+        placeholder="Message"
+        name="message"
+        id="message"
+      />
+      <button type="button" name="send" id="send-btn" onClick="sendMessage()">
+        Enviar mensagem
+      </button>
+    </div>
+    <div class="control">
+      <input id="file" type="file" name="file">
+      <button type="button" onclick="uploadFile()">Enviar arquivo</button>
+    </div> 
+    <form method="post" id="users"></form>
+  </div>
+</div>
+
+<script type="text/javascript">
+  var socketio = io();
+
+  const messages = document.getElementById("messages");
+  const users = document.getElementById("users");
+
+  const createMessage = (name, msg, isFile) => {
+    const date = new Date();
+    const time = `${date.getHours().toString().padStart(2, '0')}:${date.getMinutes().toString().padStart(2, '0')}`;
+
+    const content = `
+        <div class="message-line">
+            <span class="message-content">
+                <strong>${name}</strong>: ${msg}
+            </span>
+            <span class="message-date">
+                ${time}
+            </span>
+        </div>
+    `;
+
+    const contentFile = `
+        <div class="message-line">
+            <span class="message-content">
+                <strong>${name}</strong>: 
+            </span>
+            <a target="_blank" href="/downloads?fileName=${msg}">
+              ${msg}
+            </a>
+            <span class="message-date">
+                ${time}
+            </span>
+        </div>
+    `;
+
+    messages.innerHTML += isFile ? contentFile : content;
+  };
+
+  const createUser = (userName, userMail) => {
+    const userData = `
+      <p> ${userName} <button type="submit" name="profile" value="${userMail}"> Perfil </button> </p>`;
+    users.innerHTML += userData;
+  };
+
+  const sendMessage = () => {
+    const message = document.getElementById("message");
+    if (message.value === "") return;
+    socketio.emit("message", { data: [message.value, false] });
+    message.value = "";
+  };
+
+  function uploadFile() {
+  const input = document.getElementById("file");
+  const file = input.files[0];
+  if (!file) return;
+
+  const formData = new FormData();
+  formData.append("file", file);
+
+  fetch("/grupo", {
+    method: "POST",
+    body: formData
+  }).then(response => {
+    const fileName = file.name.replace(/\s/g, "_").replace(/[()]/g, "");
+    socketio.emit("message", { data: [fileName, true] });
+  });
+}
+
+  socketio.on("message", (data) => {
+    createMessage(data.userName, data.message, data.isFile);
+  });
+
+  socketio.on("userUpdate", (userData) => {
+    users.innerHTML = ``;
+    for (const key in userData) {
+      createUser(userData[key]["userName"], key);
+    }
+  });
+</script>
+
+<!-- 🔁 Reexibir mensagens anteriores -->
+{% for msg in messages %}
+<script type="text/javascript">
+  createMessage("{{ msg.userName }}", "{{ msg.message }}", "{{ 'true' if msg.isFile else 'false' }}" === 'true');
+</script>
+{% endfor %}
+
+{% endblock %}

@@ -1,0 +1,173 @@
+body {
+  font-size: 18px;
+  font-weight: 400;
+  font-style: normal;
+  background: #7fbff04b;
+}
+header {
+  background: #2d55b1;
+  padding: 25px 0;
+  text-align: center;
+  font-size: 30px;
+  font-weight: 400;
+  color: azure;
+}
+.caixa {
+  margin: 40px auto;
+  position: relative;
+  width: 1440px;
+}
+main {
+  box-sizing: border-box;
+  border-color: rgb(12, 59, 87);
+  border-width: 3px;
+  border-style: solid;
+  border-radius: 15px;
+  position: relative;
+  width: 720px;
+  margin: 40px auto;
+  padding: 50px 50px;
+  text-align: center;
+}
+.titulo-principal {
+  text-align: center;
+  font-size: 22px;
+  font-weight: bold;
+  margin-bottom: 30px;
+}
+.email-form label {
+  display: block;
+  font-size: 24px;
+  margin: 20px 30px 10px;
+}
+.input-padrao {
+  display: block;
+  margin: 0px 0px;
+  padding: 15px 0px 15px 5px;
+  width: 100%;
+  font-size: 18px;
+}
+.create-btn {
+  margin: 30px 0 0;
+  width: 20%;
+  padding: 20px 0;
+  background: #1e1763;
+  color: rgb(255, 253, 240);
+  font-size: 18px;
+  font-weight: bold;
+  border: none;
+  border-radius: 4px;
+}
+.create-btn:hover {
+  background: #051453;
+  transition: 0.5s all;
+  transform: scale(1.05);
+  cursor: pointer;
+}
+.create-room-form {
+  font-size: 24px;
+  margin-bottom: 15px;
+}
+.create-room-form label {
+  margin: 20px 5px;
+}
+.create-room-form input {
+  font-size: 16px;
+}
+.create-room-form button {
+  display: block;
+  margin: 25px auto;
+  width: 20%;
+  padding: 10px 0;
+  background: #1e1763;
+  color: rgb(255, 253, 240);
+  font-size: 14px;
+  font-weight: 600;
+  border: none;
+  border-radius: 4px;
+}
+.create-room-form button:hover {
+  background: #051453;
+  transition: 0.5s all;
+  transform: scale(1.05);
+  cursor: pointer;
+}
+.titulo-grupo {
+  font-size: 20px;
+  font-weight: 600;
+  margin-top: 30px;
+}
+.groups {
+  margin-top: 25px;
+  font-size: 20px;
+}
+
+.email-box {
+  box-sizing: border-box;
+  border-color: rgb(12, 59, 87);
+  border-width: 3px;
+  border-style: solid;
+  border-radius: 15px;
+  position: relative;
+  width: 720px;
+  margin: 40px auto;
+  padding: 50px;
+  display: flex;
+  flex-direction: column;
+  min-height: 90vh;
+  height: fit-content;
+}
+
+.group-name {
+  text-align: center;
+  font-weight: 800;
+  font-size: xx-large;
+  margin-bottom: 50px;
+}
+
+.chat-control {
+  display: flex;
+  flex-direction: row;
+  margin-top: auto;
+}
+
+.control {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  vertical-align: middle;
+  width: 50%;
+  gap: 10px;
+}
+.control input {
+  width: 85%;
+}
+
+.control form {
+  gap: 10px;
+}
+
+.messages {
+  min-height: 100%;
+}
+
+.message-line {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+}
+
+.message-date {
+  margin-left: auto;
+  font-size: small;
+}
+
+.arrow-back {
+  font-size: 40px;
+  position: absolute;
+  margin-left: 30px;
+  cursor: pointer;
+  text-decoration: none;
+  color: #051453;
+}
